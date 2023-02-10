@@ -28,7 +28,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('struct Foobar'));
+    expect(code, contains('public struct Foobar'));
     expect(code, contains('var field1: Int32? = nil'));
     expect(code, contains('static func fromList(_ list: [Any?]) -> Foobar?'));
     expect(code, contains('func toList() -> [Any?]'));
@@ -51,7 +51,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('enum Foobar: Int'));
+    expect(code, contains('public enum Foobar: Int'));
     expect(code, contains('  case one = 0'));
     expect(code, contains('  case two = 1'));
   });
@@ -79,7 +79,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('enum Foo: Int'));
+    expect(code, contains('public enum Foo: Int'));
     expect(code, contains('let fooArg = Foo(rawValue: args[0] as! Int)!'));
   });
 
@@ -122,7 +122,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('protocol Api'));
+    expect(code, contains('public protocol Api'));
     expect(code, matches('func doSomething.*Input.*Output'));
     expect(code, contains('doSomethingChannel.setMessageHandler'));
   });
@@ -234,7 +234,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('class Api'));
+    expect(code, contains('public class Api'));
     expect(code, contains('init(binaryMessenger: FlutterBinaryMessenger)'));
     expect(code, matches('func doSomething.*Input.*Output'));
   });
@@ -380,7 +380,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('struct Foobar'));
+    expect(code, contains('public struct Foobar'));
     expect(code, contains('var field1: [Any?]? = nil'));
   });
 
@@ -399,7 +399,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('struct Foobar'));
+    expect(code, contains('public struct Foobar'));
     expect(code, contains('var field1: [AnyHashable: Any?]? = nil'));
   });
 
@@ -435,8 +435,8 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('struct Outer'));
-    expect(code, contains('struct Nested'));
+    expect(code, contains('public struct Outer'));
+    expect(code, contains('public struct Nested'));
     expect(code, contains('var nested: Nested? = nil'));
     expect(code, contains('static func fromList(_ list: [Any?]) -> Outer?'));
     expect(code, contains('nested = Nested.fromList(nestedList)'));
@@ -483,7 +483,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('protocol Api'));
+    expect(code, contains('public protocol Api'));
     expect(code, contains('api.doSomething(arg: argArg) { result in'));
     expect(code, contains('reply(wrapResult(result))'));
   });
@@ -528,7 +528,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('class Api'));
+    expect(code, contains('public class Api'));
     expect(code, matches('func doSomething.*Input.*completion.*Output.*Void'));
   });
 
@@ -560,7 +560,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('enum Enum1: Int'));
+    expect(code, contains('public enum Enum1: Int'));
     expect(code, contains('case one = 0'));
     expect(code, contains('case two = 1'));
   });
@@ -603,7 +603,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('struct Foobar'));
+    expect(code, contains('public struct Foobar'));
     expect(code, contains('var field1: [Int32?]'));
   });
 
@@ -631,7 +631,7 @@ void main() {
     const SwiftOptions swiftOptions = SwiftOptions();
     generateSwift(swiftOptions, root, sink);
     final String code = sink.toString();
-    expect(code, contains('struct Foobar'));
+    expect(code, contains('public struct Foobar'));
     expect(code, contains('var field1: [String?: String?]'));
   });
 

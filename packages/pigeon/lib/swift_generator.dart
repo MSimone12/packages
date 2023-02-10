@@ -150,7 +150,7 @@ void _writeHostApi(Indent indent, Api api, Root root) {
   addDocumentationComments(indent, api.documentationComments, _docCommentSpec,
       generatorComments: generatedComments);
 
-  indent.write('protocol $apiName ');
+  indent.write('public protocol $apiName ');
   indent.scoped('{', '}', () {
     for (final Method method in api.methods) {
       final List<String> argSignature = <String>[];
@@ -186,7 +186,7 @@ void _writeHostApi(Indent indent, Api api, Root root) {
   indent.addln('');
   indent.writeln(
       '$_docCommentPrefix Generated setup class from Pigeon to handle messages through the `binaryMessenger`.');
-  indent.write('class ${apiName}Setup ');
+  indent.write('public class ${apiName}Setup ');
   indent.scoped('{', '}', () {
     final String codecName = _getCodecName(api);
     indent.writeln('$_docCommentPrefix The codec used by $apiName.');
@@ -199,7 +199,7 @@ void _writeHostApi(Indent indent, Api api, Root root) {
     indent.writeln(
         '$_docCommentPrefix Sets up an instance of `$apiName` to handle messages through the `binaryMessenger`.');
     indent.write(
-        'static func setUp(binaryMessenger: FlutterBinaryMessenger, api: $apiName?) ');
+        'public static func setUp(binaryMessenger: FlutterBinaryMessenger, api: $apiName?) ');
     indent.scoped('{', '}', () {
       for (final Method method in api.methods) {
         final String channelName = makeChannelName(api, method);
@@ -287,7 +287,7 @@ void _writeFlutterApi(Indent indent, Api api, Root root) {
   addDocumentationComments(indent, api.documentationComments, _docCommentSpec,
       generatorComments: generatedComments);
 
-  indent.write('class ${api.name} ');
+  indent.write('public class ${api.name} ');
   indent.scoped('{', '}', () {
     indent.writeln('private let binaryMessenger: FlutterBinaryMessenger');
     indent.write('init(binaryMessenger: FlutterBinaryMessenger)');
@@ -468,7 +468,7 @@ import FlutterMacOS
     addDocumentationComments(
         indent, anEnum.documentationComments, _docCommentSpec);
 
-    indent.write('enum ${anEnum.name}: Int ');
+    indent.write('public enum ${anEnum.name}: Int ');
     indent.scoped('{', '}', () {
       enumerate(anEnum.members, (int index, final EnumMember member) {
         addDocumentationComments(
@@ -517,7 +517,8 @@ import FlutterMacOS
 
     void writeFromList() {
       final String className = klass.name;
-      indent.write('static func fromList(_ list: [Any?]) -> $className? ');
+      indent
+          .write('public static func fromList(_ list: [Any?]) -> $className? ');
 
       indent.scoped('{', '}', () {
         enumerate(getFieldsInSerializationOrder(klass),
@@ -582,7 +583,7 @@ import FlutterMacOS
         indent, klass.documentationComments, _docCommentSpec,
         generatorComments: generatedComments);
 
-    indent.write('struct ${klass.name} ');
+    indent.write('public struct ${klass.name} ');
     indent.scoped('{', '}', () {
       getFieldsInSerializationOrder(klass).forEach(writeField);
 
