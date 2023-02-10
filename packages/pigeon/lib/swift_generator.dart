@@ -199,7 +199,7 @@ void _writeHostApi(Indent indent, Api api, Root root) {
     indent.writeln(
         '$_docCommentPrefix Sets up an instance of `$apiName` to handle messages through the `binaryMessenger`.');
     indent.write(
-        'static func setUp(binaryMessenger: FlutterBinaryMessenger, api: $apiName?) ');
+        'public static func setUp(binaryMessenger: FlutterBinaryMessenger, api: $apiName?) ');
     indent.scoped('{', '}', () {
       for (final Method method in api.methods) {
         final String channelName = makeChannelName(api, method);
