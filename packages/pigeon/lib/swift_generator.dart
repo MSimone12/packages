@@ -484,7 +484,7 @@ import FlutterMacOS
           indent, field.documentationComments, _docCommentSpec);
 
       indent.write(
-          'var ${field.name}: ${_nullsafeSwiftTypeForDartType(field.type)}');
+          'public var ${field.name}: ${_nullsafeSwiftTypeForDartType(field.type)}');
       final String defaultNil = field.type.isNullable ? ' = nil' : '';
       indent.addln(defaultNil);
     }
