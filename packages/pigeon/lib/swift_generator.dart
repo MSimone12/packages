@@ -410,10 +410,10 @@ import FlutterMacOS
           indent.writeln('func ${components.name}(${argSignature.join(', ')})');
         } else if (method.returnType.isVoid) {
           indent.writeln(
-              'public func ${components.name}(${argSignature.join(', ')}) throws');
+              'func ${components.name}(${argSignature.join(', ')}) throws');
         } else {
           indent.writeln(
-              'public func ${components.name}(${argSignature.join(', ')}) throws -> $returnType');
+              'func ${components.name}(${argSignature.join(', ')}) throws -> $returnType');
         }
       }
     });
