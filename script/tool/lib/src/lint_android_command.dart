@@ -38,12 +38,13 @@ class LintAndroidCommand extends PackageLoopingCommand {
           'Plugin does not have an Android implementation.');
     }
 
-    bool failed = false;
     for (final RepositoryPackage example in package.getExamples()) {
       final GradleProject project = GradleProject(example,
           processRunner: processRunner, platform: platform);
 
       if (!project.isConfigured()) {
+        // TODO(stuartmorgan): Replace this with a --config-only build once
+        // that's available on stable.
         return PackageResult.fail(<String>['Build examples before linting']);
       }
 
@@ -58,10 +59,10 @@ class LintAndroidCommand extends PackageLoopingCommand {
       // inline, and the rest have to be checked via the CI-uploaded artifact.
       final int exitCode = await project.runCommand('$packageName:lintDebug');
       if (exitCode != 0) {
-        failed = true;
+        return PackageResult.fail();
       }
     }
 
-    return failed ? PackageResult.fail() : PackageResult.success();
+    return PackageResult.success();
   }
 }

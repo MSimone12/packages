@@ -15,6 +15,7 @@ class AllTypes {
   AllTypes({
     this.aBool = false,
     this.anInt = 0,
+    this.anInt64 = 0,
     this.aDouble = 0,
     required this.aByteArray,
     required this.a4ByteArray,
@@ -28,6 +29,7 @@ class AllTypes {
 
   bool aBool;
   int anInt;
+  int anInt64;
   double aDouble;
   Uint8List aByteArray;
   Int32List a4ByteArray;
@@ -46,6 +48,7 @@ class AllNullableTypes {
   AllNullableTypes(
     this.aNullableBool,
     this.aNullableInt,
+    this.aNullableInt64,
     this.aNullableDouble,
     this.aNullableByteArray,
     this.aNullable4ByteArray,
@@ -62,6 +65,7 @@ class AllNullableTypes {
 
   bool? aNullableBool;
   int? aNullableInt;
+  int? aNullableInt64;
   double? aNullableDouble;
   Uint8List? aNullableByteArray;
   Int32List? aNullable4ByteArray;
@@ -102,8 +106,11 @@ abstract class HostIntegrationCoreApi {
   /// Returns an error, to test error handling.
   Object? throwError();
 
-  /// Responds with an error from an async void function.
+  /// Returns an error from a void function, to test error handling.
   void throwErrorFromVoid();
+
+  /// Returns a Flutter error, to test error handling.
+  Object? throwFlutterError();
 
   /// Returns passed in int.
   @ObjCSelector('echoInt:')
@@ -272,6 +279,10 @@ abstract class HostIntegrationCoreApi {
   /// Responds with an error from an async void function.
   @async
   void throwAsyncErrorFromVoid();
+
+  /// Responds with a Flutter error from an async function returning a value.
+  @async
+  Object? throwAsyncFlutterError();
 
   /// Returns the passed object, to test async serialization and deserialization.
   @async
@@ -538,10 +549,68 @@ abstract class FlutterIntegrationCoreApi {
   @ObjCSelector('echoNullableMap:')
   @SwiftFunction('echoNullable(_:)')
   Map<String?, Object?>? echoNullableMap(Map<String?, Object?>? aMap);
+
+  // ========== Async tests ==========
+  // These are minimal since async FlutterApi only changes Dart generation.
+  // Currently they aren't integration tested, but having them here ensures
+  // analysis coverage.
+
+  /// A no-op function taking no arguments and returning no value, to sanity
+  /// test basic asynchronous calling.
+  @async
+  void noopAsync();
+
+  /// Returns the passed in generic Object asynchronously.
+  @async
+  @ObjCSelector('echoAsyncString:')
+  @SwiftFunction('echoAsync(_:)')
+  String echoAsyncString(String aString);
 }
 
 /// An API that can be implemented for minimal, compile-only tests.
+//
+// This is also here to test that multiple host APIs can be generated
+// successfully in all languages (e.g., in Java where it requires having a
+// wrapper class).
 @HostApi()
 abstract class HostTrivialApi {
   void noop();
+}
+
+/// A simple API implemented in some unit tests.
+//
+// This is separate from HostIntegrationCoreApi to avoid having to update a
+// lot of unit tests every time we add something to the integration test API.
+// TODO(stuartmorgan): Restructure the unit tests to reduce the number of
+// different APIs we define.
+@HostApi()
+abstract class HostSmallApi {
+  @async
+  @ObjCSelector('echoString:')
+  String echo(String aString);
+
+  @async
+  void voidVoid();
+}
+
+/// A simple API called in some unit tests.
+//
+// This is separate from FlutterIntegrationCoreApi to allow for incrementally
+// moving from the previous fragmented unit test structure to something more
+// unified.
+// TODO(stuartmorgan): Restructure the unit tests to reduce the number of
+// different APIs we define.
+@FlutterApi()
+abstract class FlutterSmallApi {
+  @ObjCSelector('echoWrappedList:')
+  @SwiftFunction('echo(_:)')
+  TestMessage echoWrappedList(TestMessage msg);
+}
+
+/// A data class containing a List, used in unit tests.
+// TODO(stuartmorgan): Evaluate whether these unit tests are still useful; see
+// TODOs above about restructring.
+class TestMessage {
+  // ignore: always_specify_types, strict_raw_type
+  List? testList;
 }

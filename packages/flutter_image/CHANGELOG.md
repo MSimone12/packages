@@ -1,3 +1,8 @@
+## NEXT
+
+* Updates minimum supported SDK version to Flutter 3.3/Dart 2.18.
+* Aligns Dart and Flutter SDK constraints.
+
 ## 4.1.5
 
 * Removes use of `runtimeType.toString()`.
